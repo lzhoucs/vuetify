@@ -134,6 +134,10 @@ export default {
       type: String,
       default: 'id'
     },
+    groupKey: {
+      type: String,
+      default: null
+    },
     pagination: {
       type: Object,
       default: () => {}

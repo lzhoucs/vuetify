@@ -8,6 +8,11 @@ export default {
 
       return this.$createElement('tbody', children)
     },
+    genGroupRow (props) {
+      const row = this.$scopedSlots.group(props)
+      return this.genEmptyItems(row)
+    },
+
     genExpandedRow (props) {
       const children = []
 
@@ -37,10 +42,17 @@ export default {
       }
 
       const rows = []
+      let currentGroup
       for (let index = 0, len = this.filteredItems.length; index < len; ++index) {
         const item = this.filteredItems[index]
         const props = this.createProps(item, index)
         const row = this.$scopedSlots.items(props)
+
+        if (this.$scopedSlots.group && (!this.groupKey || currentGroup !== props.item[this.groupKey])) {
+          currentGroup = props.item[this.groupKey]
+          const groupRow = this.genGroupRow(props)
+          rows.push(groupRow)
+        }
 
         rows.push(this.hasTag(row, 'td')
           ? this.genTR(row, {
