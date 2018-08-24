@@ -84,37 +84,48 @@ export default {
     },
     customSort: {
       type: Function,
-      default: (items, index, isDescending) => {
-        if (index === null) return items
+      default: (items, ...sortSpecs) => {
+        const sort = ([index, isDescending]) => {
+          const nextSortSpec = it.next()
 
-        return items.sort((a, b) => {
-          let sortA = getObjectValueByPath(a, index)
-          let sortB = getObjectValueByPath(b, index)
+          if (index === null) return items
 
-          if (isDescending) {
-            [sortA, sortB] = [sortB, sortA]
-          }
+          return items.sort((a, b) => {
+            let sortA = getObjectValueByPath(a, index)
+            let sortB = getObjectValueByPath(b, index)
 
-          // Check if both are numbers
-          if (!isNaN(sortA) && !isNaN(sortB)) {
-            return sortA - sortB
-          }
+            if (isDescending) {
+              [sortA, sortB] = [sortB, sortA]
+            }
 
-          // Check if both cannot be evaluated
-          if (sortA === null && sortB === null) {
-            return 0
-          }
+            // Check if both are numbers
+            if (!isNaN(sortA) && !isNaN(sortB)) {
+              return sortA - sortB
+            }
 
-          [sortA, sortB] = [sortA, sortB]
-            .map(s => (
-              (s || '').toString().toLocaleLowerCase()
-            ))
+            // Check if both cannot be evaluated
+            if (sortA === null && sortB === null) {
+              return nextSortSpec.done ? 0 : sort(nextSortSpec.value[1])
+            }
 
-          if (sortA > sortB) return 1
-          if (sortA < sortB) return -1
+            [sortA, sortB] = [sortA, sortB]
+              .map(s => (
+                (s || '').toString().toLocaleLowerCase()
+              ))
 
-          return 0
-        })
+            if (sortA > sortB) return 1
+            if (sortA < sortB) return -1
+
+            return nextSortSpec.done ? 0 : sort(nextSortSpec.value[1])
+          })
+        }
+
+        const it = sortSpecs.entries()
+
+        const nextSortSpec = it.next()
+        if (nextSortSpec.done) return items
+
+        return sort(nextSortSpec.value[1])
       }
     },
     value: {
@@ -282,9 +293,7 @@ export default {
       }
 
       items = this.customSort(
-        items,
-        this.computedPagination.sortBy,
-        this.computedPagination.descending
+        items, [this.groupKey, false], [this.computedPagination.sortBy, this.computedPagination.descending]
       )
 
       return this.hideActions &&
