@@ -85,47 +85,44 @@ export default {
     customSort: {
       type: Function,
       default: (items, ...sortSpecs) => {
-        const sort = ([index, isDescending]) => {
-          const nextSortSpec = it.next()
+        if (!sortSpecs.length) return items
 
-          if (index === null) return items
+        return items.sort((a, b) => compareFunc(a, b, 0))
 
-          return items.sort((a, b) => {
-            let sortA = getObjectValueByPath(a, index)
-            let sortB = getObjectValueByPath(b, index)
+        function compareFunc(a, b, i) {
+          if (i >= sortSpecs.length) return 0
 
-            if (isDescending) {
-              [sortA, sortB] = [sortB, sortA]
-            }
+          const [index, isDescending] = sortSpecs[i]
 
-            // Check if both are numbers
-            if (!isNaN(sortA) && !isNaN(sortB)) {
-              return sortA - sortB
-            }
+          if (!index) return compareFunc(a, b, i + 1)
 
-            // Check if both cannot be evaluated
-            if (sortA === null && sortB === null) {
-              return nextSortSpec.done ? 0 : sort(nextSortSpec.value[1])
-            }
+          let sortA = getObjectValueByPath(a, index)
+          let sortB = getObjectValueByPath(b, index)
 
-            [sortA, sortB] = [sortA, sortB]
-              .map(s => (
-                (s || '').toString().toLocaleLowerCase()
-              ))
+          if (isDescending) {
+            [sortA, sortB] = [sortB, sortA]
+          }
 
-            if (sortA > sortB) return 1
-            if (sortA < sortB) return -1
+          // Check if both are numbers
+          if (!isNaN(sortA) && !isNaN(sortB)) {
+            const result = sortA - sortB
+            return result !== 0 ? result : compareFunc(a, b, i + 1)
+          }
 
-            return nextSortSpec.done ? 0 : sort(nextSortSpec.value[1])
-          })
+          // Check if both cannot be evaluated
+          if (sortA === null && sortB === null) {
+            return compareFunc(a, b, i + 1)
+          }
+
+          [sortA, sortB] = [sortA, sortB]
+            .map(s => (
+              (s || '').toString().toLocaleLowerCase()
+            ))
+
+          if (sortA > sortB) return 1
+          if (sortA < sortB) return -1
+          return compareFunc(a, b, i + 1)
         }
-
-        const it = sortSpecs.entries()
-
-        const nextSortSpec = it.next()
-        if (nextSortSpec.done) return items
-
-        return sort(nextSortSpec.value[1])
       }
     },
     value: {
