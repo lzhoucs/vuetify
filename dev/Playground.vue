@@ -121,8 +121,8 @@
       desserts: [
         {
           value: false,
-          name: 'Eclair',
-          category: 'Group 1',
+          name: 'Orange Juice',
+          category: 'Beverage',
           calories: 262,
           fat: 16.0,
           carbs: 23,
@@ -131,8 +131,8 @@
         },
         {
           value: false,
-          name: 'Honeycomb',
-          category: 'Group 3',
+          name: 'Larabar',
+          category: 'Snack',
           calories: 408,
           fat: 3.2,
           carbs: 87,
@@ -142,7 +142,7 @@
         {
           value: false,
           name: 'Donut',
-          category: 'Group 2',
+          category: 'Breakfast',
           calories: 452,
           fat: 25.0,
           carbs: 51,
@@ -152,8 +152,8 @@
 
         {
           value: false,
-          name: 'Donut Clone',
-          category: 'Group 2',
+          name: 'Bagel',
+          category: 'Breakfast',
           calories: 999,
           fat: 28.0,
           carbs: 151,
@@ -163,7 +163,7 @@
         {
           value: false,
           name: 'KitKat',
-          category: 'Group 1',
+          category: 'Snack',
           calories: 518,
           fat: 26.0,
           carbs: 65,
