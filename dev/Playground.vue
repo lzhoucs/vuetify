@@ -27,13 +27,14 @@
         </div>
 -->
 
+<!---->
         <div>
           <h2>Grouping Table</h2>
-          <v-data-table :headers="headers" :items="desserts" hide-actions item-key="name" group-key="groupName">
+          <v-data-table :headers="headers" :items="desserts" hide-actions item-key="name" group-key="category">
 
             <template slot="group" slot-scope="props">
               <v-card flat>
-                <v-card-text>Group - {{props.item.groupName}}</v-card-text>
+                <v-card-text>Group {{props.groupIndex}} - {{props.groupName}}</v-card-text>
               </v-card>
             </template>
 
@@ -55,6 +56,38 @@
           </v-data-table>
         </div>
 
+<!--
+        <v-list>
+          <v-list-group
+            v-model="aItem.active"
+            :key="aItem.title"
+            :prepend-icon="aItem.action"
+            no-action
+          >
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title>{{ aItem.title }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
+            <v-list-tile
+              v-for="subItem in aItem.items"
+              :key="subItem.title"
+              @click=""
+            >
+              <v-list-tile-content>
+                <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
+              </v-list-tile-content>
+
+              <v-list-tile-action>
+                <v-icon>{{ subItem.action }}</v-icon>
+              </v-list-tile-action>
+
+            </v-list-tile>
+
+          </v-list-group>
+        </v-list>
+-->
       </v-container>
     </v-content>
   </v-app>
@@ -63,6 +96,15 @@
 <script>
   export default {
     data: () => ({
+      aItem: {
+        action: 'local_activity',
+        title: 'Attractions',
+        items: [
+          { title: 'List Item' }
+        ]
+      },
+
+
       headers: [
         {
           text: 'Dessert (100g serving)',
@@ -80,7 +122,7 @@
         {
           value: false,
           name: 'Eclair',
-          groupName: 'Group 1',
+          category: 'Group 1',
           calories: 262,
           fat: 16.0,
           carbs: 23,
@@ -90,7 +132,7 @@
         {
           value: false,
           name: 'Honeycomb',
-          groupName: 'Group 3',
+          category: 'Group 3',
           calories: 408,
           fat: 3.2,
           carbs: 87,
@@ -100,7 +142,7 @@
         {
           value: false,
           name: 'Donut',
-          groupName: 'Group 2',
+          category: 'Group 2',
           calories: 452,
           fat: 25.0,
           carbs: 51,
@@ -111,7 +153,7 @@
         {
           value: false,
           name: 'Donut Clone',
-          groupName: 'Group 2',
+          category: 'Group 2',
           calories: 999,
           fat: 28.0,
           carbs: 151,
@@ -121,7 +163,7 @@
         {
           value: false,
           name: 'KitKat',
-          groupName: 'Group 1',
+          category: 'Group 1',
           calories: 518,
           fat: 26.0,
           carbs: 65,
