@@ -134,3 +134,8 @@ theme(v-datatable, "v-datatable")
     cursor: pointer
   &-content
     display: flex
+    align-items: center
+  &--active
+    .v-datatable__group__expand-icon
+      .v-icon
+        transform: rotate(-180deg)

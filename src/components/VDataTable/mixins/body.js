@@ -11,12 +11,21 @@ export default {
     },
     genGroupRow (props) {
       const groupPrefix = 'v-datatable__group'
+      const expandIcon = this.$createElement('div', {
+        'class': `${groupPrefix}__expand-icon`
+      }, [this.$createElement(VIcon, this.expandIcon)])
+
       const groupContent = this.$createElement('div', {
         'class': `${groupPrefix}-content`
-      }, [this.$createElement(VIcon, this.expandIcon), this.$scopedSlots.group(props)])
+      }, [expandIcon, this.$scopedSlots.group(props)])
 
       return this.genTR([this.$createElement('td', {
         class: `${groupPrefix}-col`,
+        on: {
+          click: () => {
+
+          }
+        },
         attrs: { colspan: this.headerColumns }
       }, [groupContent])
       ])
