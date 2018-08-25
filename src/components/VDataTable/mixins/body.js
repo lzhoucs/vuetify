@@ -1,4 +1,5 @@
 import ExpandTransitionGenerator from '../../transitions/expand-transition'
+import VIcon from '../../VIcon'
 
 /* @vue/component */
 export default {
@@ -9,8 +10,16 @@ export default {
       return this.$createElement('tbody', children)
     },
     genGroupRow (props) {
-      const row = this.$scopedSlots.group(props)
-      return this.genEmptyItems(row)
+      const groupPrefix = 'v-datatable__group'
+      const groupContent = this.$createElement('div', {
+        'class': `${groupPrefix}-content`
+      }, [this.$createElement(VIcon, this.expandIcon), this.$scopedSlots.group(props)])
+
+      return this.genTR([this.$createElement('td', {
+        class: `${groupPrefix}-col`,
+        attrs: { colspan: this.headerColumns }
+      }, [groupContent])
+      ])
     },
 
     genExpandedRow (props) {

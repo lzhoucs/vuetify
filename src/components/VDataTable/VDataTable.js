@@ -49,6 +49,10 @@ export default {
 
         return items.filter(item => props.some(prop => filter(getObjectValueByPath(item, prop), search)))
       }
+    },
+    expandIcon: {
+      type: String,
+      default: '$vuetify.icons.expand'
     }
   },
 
