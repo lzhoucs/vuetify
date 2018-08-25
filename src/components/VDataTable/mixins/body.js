@@ -52,15 +52,17 @@ export default {
 
       const rows = []
       let currentGroup
-      for (let index = 0, len = this.filteredItems.length; index < len; ++index) {
+      for (let index = 0, groupIndex = 0, len = this.filteredItems.length; index < len; ++index) {
         const item = this.filteredItems[index]
         const props = this.createProps(item, index)
         const row = this.$scopedSlots.items(props)
 
         if (this.$scopedSlots.group && (!this.groupKey || currentGroup !== props.item[this.groupKey])) {
           currentGroup = props.item[this.groupKey]
-          const groupRow = this.genGroupRow(props)
+          const groupProps = { groupName: currentGroup, groupIndex }
+          const groupRow = this.genGroupRow(groupProps)
           rows.push(groupRow)
+          groupIndex++
         }
 
         rows.push(this.hasTag(row, 'td')
