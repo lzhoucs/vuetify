@@ -46,11 +46,11 @@
 
               <tr slot="items" slot-scope="props" @click="props.expanded = !props.expanded">
                 <td>{{ props.item.name }}</td>
-                <td class="text-xs-right">{{ props.item.calories }}</td>
-                <td class="text-xs-right">{{ props.item.fat }}</td>
-                <td class="text-xs-right">{{ props.item.carbs }}</td>
-                <td class="text-xs-right">{{ props.item.protein }}</td>
-                <td class="text-xs-right">{{ props.item.iron }}</td>
+                <td>{{ props.item.calories }}</td>
+                <td>{{ props.item.fat }}</td>
+                <td>{{ props.item.carbs }}</td>
+                <td>{{ props.item.protein }}</td>
+                <td>{{ props.item.iron }}</td>
               </tr>
 
           </v-data-table>
