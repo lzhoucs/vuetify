@@ -20,10 +20,13 @@ export default {
       }, [expandIcon, this.$scopedSlots.group(props)])
 
       return this.genTR([this.$createElement('td', {
-        class: `${groupPrefix}-col`,
+        class: [
+          `${groupPrefix}-col`,
+          { [`${groupPrefix}-col--active`]: this.activeGroup[props.groupName] }
+        ],
         on: {
           click: () => {
-
+            this.$set(this.activeGroup, props.groupName, !this.activeGroup[props.groupName])
           }
         },
         attrs: { colspan: this.headerColumns }

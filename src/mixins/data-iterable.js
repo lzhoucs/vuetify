@@ -89,7 +89,7 @@ export default {
 
         return items.sort((a, b) => compareFunc(a, b, 0))
 
-        function compareFunc(a, b, i) {
+        function compareFunc (a, b, i) {
           if (i >= sortSpecs.length) return 0
 
           const [index, isDescending] = sortSpecs[i]
@@ -162,6 +162,7 @@ export default {
       totalItems: 0
     },
     expanded: {},
+    activeGroup: {},
     actionsClasses: 'v-data-iterator__actions',
     actionsRangeControlsClasses: 'v-data-iterator__actions__range-controls',
     actionsSelectClasses: 'v-data-iterator__actions__select',
