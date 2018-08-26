@@ -33,7 +33,7 @@
           <v-data-table :headers="headers" :items="desserts" hide-actions item-key="name" group-key="category">
 
             <template slot="group" slot-scope="props">
-              <v-card flat>
+              <v-card flat class="font-weight-bold">
                 <v-card-text>Group {{props.groupIndex + 1}} - {{props.groupName}}</v-card-text>
               </v-card>
             </template>
@@ -44,7 +44,8 @@
               </v-card>
             </template>
 
-              <tr slot="items" slot-scope="props" @click="props.expanded = !props.expanded">
+            <template slot="items" slot-scope="props" >
+              <tr @click="props.expanded = !props.expanded">
                 <td>{{ props.item.name }}</td>
                 <td>{{ props.item.calories }}</td>
                 <td>{{ props.item.fat }}</td>
@@ -52,6 +53,7 @@
                 <td>{{ props.item.protein }}</td>
                 <td>{{ props.item.iron }}</td>
               </tr>
+            </template>
 
           </v-data-table>
         </div>
