@@ -34,13 +34,13 @@
 
             <template slot="group" slot-scope="props">
               <v-card flat>
-                <v-card-text>Group {{props.groupIndex}} - {{props.groupName}}</v-card-text>
+                <v-card-text>Group {{props.groupIndex + 1}} - {{props.groupName}}</v-card-text>
               </v-card>
             </template>
 
             <template slot="expand" slot-scope="props">
               <v-card flat >
-                <v-card-text>Summary - {{props.item.name}}</v-card-text>
+                <v-card-text>Nutrition details - {{props.item.name}}</v-card-text>
               </v-card>
             </template>
 
