@@ -77,6 +77,9 @@ export default {
           groupIndex++
         }
 
+        if (this.$scopedSlots.group && !this.activeGroup[currentGroup])
+          continue
+
         rows.push(this.hasTag(row, 'td')
           ? this.genTR(row, {
             key: this.itemKey ? props.item[this.itemKey] : index,
