@@ -30,8 +30,7 @@ export default {
           }
         },
         attrs: { colspan: this.headerColumns }
-      }, [groupContent])
-      ])
+      }, [groupContent])], { 'class': `${groupPrefix}-row` })
     },
 
     genExpandedRow (props) {
@@ -77,8 +76,9 @@ export default {
           groupIndex++
         }
 
-        if (this.$scopedSlots.group && !this.activeGroup[currentGroup])
+        if (this.$scopedSlots.group && !this.activeGroup[currentGroup]) {
           continue
+        }
 
         rows.push(this.hasTag(row, 'td')
           ? this.genTR(row, {
