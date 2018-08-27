@@ -26,7 +26,12 @@ export default {
         ],
         on: {
           click: () => {
-            this.$set(this.activeGroup, props.groupName, !this.activeGroup[props.groupName])
+            const active = !this.activeGroup[props.groupName]
+            this.$set(this.activeGroup, props.groupName, active)
+            this.$emit('group', {
+              active,
+              ...props
+            })
           }
         },
         attrs: { colspan: this.headerColumns }

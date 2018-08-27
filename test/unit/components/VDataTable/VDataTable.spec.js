@@ -450,7 +450,6 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
 
   function createGroupComponent(propsData = {}) {
     const data = dataTableTestDataGroup()
-    // Object.assign(data.propsData, propsData)
 
     return Vue.component('test', {
       props: {
@@ -459,8 +458,9 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
       render (h) {
         return h(VDataTable, {
           props: Object.assign(data.propsData, propsData, this.tableProps),
+          on: propsData.on || {},
           scopedSlots: {
-            items: props => [h('td', props.item.col1), h('td', props.item.col2)]
+            items: props => [h('td', props.item.col1), h('td', props.item.col2)],
             group: props => h('span', `Group ${props.groupIndex + 1} - ${props.groupName}`)
           }
         })
@@ -544,6 +544,35 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
     expect(allRowsDesc[6].text()).toBe('val6')
     expect(allRowsDesc[7].text()).toBe('val4')
     expect(allRowsDesc[8].text()).toBe('val2')
+
+    expect('Unable to locate target [data-app]').toHaveBeenTipped()
+  })
+
+  it('should emit `group` event when a group is expanded/collapsed', async() => {
+    const mockGroupEventHandler = jest.fn()
+    const wrapper = mount(createGroupComponent({
+      on: {
+        group: mockGroupEventHandler
+      }
+    }))
+
+    wrapper.find('table.v-datatable tbody > tr > td.v-datatable__group-col')[0].trigger('click')
+    await wrapper.vm.$nextTick()
+
+    expect(mockGroupEventHandler).toHaveBeenCalledWith({
+      active: true,
+      groupIndex: 0,
+      groupName: 'A'
+    })
+
+    wrapper.find('table.v-datatable tbody > tr > td.v-datatable__group-col')[0].trigger('click')
+    await wrapper.vm.$nextTick()
+
+    expect(mockGroupEventHandler).toHaveBeenCalledWith({
+      active: false,
+      groupIndex: 0,
+      groupName: 'A'
+    })
 
     expect('Unable to locate target [data-app]').toHaveBeenTipped()
   })
