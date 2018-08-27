@@ -2,46 +2,12 @@
   <v-app>
     <v-content>
       <v-container fluid>
-<!--
-        <div>
-          <h2>Original Expand Table</h2>
-          <v-data-table :headers="headers" :items="desserts" hide-actions item-key="name" expand>
-            <template slot="items" slot-scope="props">
-              <tr @click="props.expanded = !props.expanded">
-                <td>{{ props.item.name }}</td>
-                <td class="text-xs-right">{{ props.item.calories }}</td>
-                <td class="text-xs-right">{{ props.item.fat }}</td>
-                <td class="text-xs-right">{{ props.item.carbs }}</td>
-                <td class="text-xs-right">{{ props.item.protein }}</td>
-                <td class="text-xs-right">{{ props.item.iron }}</td>
-              </tr>
-            </template>
-
-            <template slot="expand" slot-scope="props">
-              <v-card flat>
-                <v-card-text>Summary - {{props.item.name}}</v-card-text>
-              </v-card>
-            </template>
-
-          </v-data-table>
-        </div>
--->
-
-<!---->
         <div>
           <h2>Grouping Table</h2>
           <v-data-table :headers="headers" :items="desserts" hide-actions item-key="name" group-key="category">
 
             <template slot="group" slot-scope="props">
-              <v-card flat class="font-weight-bold">
-                <v-card-text>Group {{props.groupIndex + 1}} - {{props.groupName}}</v-card-text>
-              </v-card>
-            </template>
-
-            <template slot="expand" slot-scope="props">
-              <v-card flat >
-                <v-card-text>Nutrition details - {{props.item.name}}</v-card-text>
-              </v-card>
+              <span class="font-weight-bold">Group {{props.groupIndex + 1}} - {{props.groupName}}</span>
             </template>
 
             <template slot="items" slot-scope="props" >
@@ -58,38 +24,6 @@
           </v-data-table>
         </div>
 
-<!--
-        <v-list>
-          <v-list-group
-            v-model="aItem.active"
-            :key="aItem.title"
-            :prepend-icon="aItem.action"
-            no-action
-          >
-            <v-list-tile slot="activator">
-              <v-list-tile-content>
-                <v-list-tile-title>{{ aItem.title }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-
-            <v-list-tile
-              v-for="subItem in aItem.items"
-              :key="subItem.title"
-              @click=""
-            >
-              <v-list-tile-content>
-                <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
-              </v-list-tile-content>
-
-              <v-list-tile-action>
-                <v-icon>{{ subItem.action }}</v-icon>
-              </v-list-tile-action>
-
-            </v-list-tile>
-
-          </v-list-group>
-        </v-list>
--->
       </v-container>
     </v-content>
   </v-app>
@@ -98,15 +32,6 @@
 <script>
   export default {
     data: () => ({
-      aItem: {
-        action: 'local_activity',
-        title: 'Attractions',
-        items: [
-          { title: 'List Item' }
-        ]
-      },
-
-
       headers: [
         {
           text: 'Dessert (100g serving)',
