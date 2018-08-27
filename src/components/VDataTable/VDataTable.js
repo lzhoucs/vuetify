@@ -54,6 +54,10 @@ export default {
 
         return items.filter(item => props.some(prop => filter(getObjectValueByPath(item, prop), search)))
       }
+    },
+    expandIcon: {
+      type: String,
+      default: 'keyboard_arrow_down'
     }
   },
 
