@@ -110,7 +110,9 @@ export default {
       ])
     ])
 
-    return h('div', [
+    return h('div', {
+      'class': 'v-datatable-root'
+    }, [
       tableOverflow,
       this.genActionsFooter()
     ])

@@ -30,6 +30,13 @@ datatable($material)
         .input-group__append-icon
           color: rgba($material.fg-color, $material.secondary-text-percent) !important
 
+.v-datatable
+  &-root
+    position: relative;
+
+  .v-input--selection-controls
+    margin: 0
+
 theme(datatable, "datatable")
 
 .datatable
