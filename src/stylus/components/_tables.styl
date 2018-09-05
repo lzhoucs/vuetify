@@ -3,13 +3,17 @@
 
 /* Theme */
 table($material)
-  background-color: $material.cards
-  color: $material.text.primary
+  &, .fixed-column
+    background-color: $material.cards
+    color: $material.text.primary
+  .last-fixed-column
+    border-right: 1px solid rgba($material.fg-color, $material.divider-percent)
 
   thead
     tr
       &:first-child
-        border-bottom: 1px solid rgba($material.fg-color, $material.divider-percent)
+        &, & .fixed-column
+          border-bottom: 1px solid rgba($material.fg-color, $material.divider-percent)
 
     th
       color: rgba($material.text-color, $material.secondary-text-percent)
@@ -17,13 +21,15 @@ table($material)
   tbody
     tr
       &:not(:last-child)
-        border-bottom: 1px solid rgba($material.fg-color, $material.divider-percent)
+        &, & .fixed-column
+          border-bottom: 1px solid rgba($material.fg-color, $material.divider-percent)
 
       &[active]
         background: $material.table.active
 
       &:hover:not(.datatable__expand-row)
-        background: $material.table.hover
+        &, & .fixed-column
+          background: $material.table.hover
 
   tfoot
     tr
@@ -43,16 +49,22 @@ table.table
   width: 100%
   max-width: 100%
 
+  &.fixed-columns-table
+    table-layout: fixed
+
   thead, tbody
     td, th
       &:not(:nth-child(1)), &:first-child
         padding: 0 24px
+      &.fixed-column
+        position: absolute
+        display: flex
+        align-items: center
 
   thead
-    tr
-      height: 56px
 
     th
+      height: 56px
       font-weight: 500
       font-size: 12px
       transition: .3s $transition.swing
@@ -66,7 +78,7 @@ table.table
         width: 100%
 
   tbody
-    tr
+    tr, .fixed-column
       transition: background $primary-transition
       will-change: background
 
