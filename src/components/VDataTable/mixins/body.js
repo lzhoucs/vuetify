@@ -19,10 +19,15 @@ export default {
         'class': `${groupPrefix}-content`
       }, [expandIcon, this.$scopedSlots.group(props)])
 
-      return this.genTR([this.$createElement('td', {
+      const fixedColumnsCount = this.headers.filter(header => header.fixed === true).length
+
+      const groupTds = [this.$createElement('td', {
         class: [
           `${groupPrefix}-col`,
-          { [`${groupPrefix}-col--active`]: this.activeGroup[props.groupName] }
+          {
+            [`${groupPrefix}-col--active`]: this.activeGroup[props.groupName],
+            'fixed-column': fixedColumnsCount,
+          }
         ],
         on: {
           click: () => {
@@ -34,8 +39,16 @@ export default {
             })
           }
         },
-        attrs: { colspan: this.headerColumns }
-      }, [groupContent])], { 'class': `${groupPrefix}-row` })
+        attrs: { colspan: fixedColumnsCount || this.headerColumns }
+      }, [groupContent])]
+
+      if (fixedColumnsCount) {
+        groupTds.push(this.$createElement('td', {
+          class: 'group-column-spacer',
+          attrs: { colspan: this.headerColumns - fixedColumnsCount }
+        }))
+      }
+      return this.genTR(groupTds, { 'class': `${groupPrefix}-row` })
     },
 
     genExpandedRow (props) {
@@ -61,6 +74,26 @@ export default {
 
       return this.genTR([transition], { class: 'v-datatable__expand-row' })
     },
+    augmentRow (row) {
+      const tds = row.tag === 'td' ? [row]
+        : (this.hasTag(row, 'td') ? row : row[0].children)
+
+      let i = 0
+      for (const td of tds) {
+        if (this.headers[i].fixed === true && td.tag === 'td') {
+          td.data = td.data || {}
+          td.data.class = `${td.data['class'] || ''} fixed-column`.trim()
+          td.data.style = {
+            left: `${this.getFixedColumnLeft(i)}px`,
+            width: this.headers[i].width
+          }
+          if (this.headers[i + 1] && !this.headers[i + 1].fixed) {
+            td.data.class += ' last-fixed-column'
+          }
+          i++
+        }
+      }
+    },
     genFilteredItems () {
       if (!this.$scopedSlots.items) {
         return null
@@ -84,6 +117,8 @@ export default {
         if (this.$scopedSlots.group && !this.activeGroup[currentGroup]) {
           continue
         }
+
+        this.augmentRow(row)
 
         rows.push(this.hasTag(row, 'td')
           ? this.genTR(row, {
