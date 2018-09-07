@@ -26,7 +26,7 @@ export default {
           `${groupPrefix}-col`,
           {
             [`${groupPrefix}-col--active`]: this.activeGroup[props.groupName],
-            'fixed-column': fixedColumnsCount,
+            'fixed-column': fixedColumnsCount
           }
         ],
         on: {
@@ -59,7 +59,6 @@ export default {
           class: 'v-datatable__expand-content',
           key: props.item[this.itemKey]
         }, [this.$scopedSlots.expand(props)])
-
         children.push(expand)
       }
 
