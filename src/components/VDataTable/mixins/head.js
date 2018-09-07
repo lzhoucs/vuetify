@@ -27,7 +27,7 @@ export default {
 
         children = [this.hasTag(row, 'th') ? this.genTR(row) : row, this.genTProgress()]
       } else {
-        const row = this.headers.map((o, i) => this.genHeader(o, this.headerKey ? o[this.headerKey] : i))
+        const row = this.headers.map((o, i) => this.genHeader(o, this.headerKey ? o[this.headerKey] : i, i))
         const checkbox = this.$createElement(VCheckbox, {
           props: {
             dark: this.dark,
@@ -44,19 +44,25 @@ export default {
 
         children = [this.genTR(row), this.genTProgress()]
       }
-
+      // fixed column isn't compatible with the built in progress bar
+      this.getFixedColumnLeft() && children.pop()
       return this.$createElement('thead', [children])
     },
-    genHeader (header, key) {
+    genHeader (header, key, indx) {
       const array = [
         this.$scopedSlots.headerCell
           ? this.$scopedSlots.headerCell({ header })
           : header[this.headerText]
       ]
 
-      return this.$createElement('th', ...this.genHeaderData(header, array, key))
+      return this.$createElement('th', ...this.genHeaderData(header, array, key, indx))
     },
-    genHeaderData (header, children, key) {
+    getFixedColumnLeft (indx = this.headers.length) {
+      return this.headers
+        .filter((header, i) => i < indx && header.fixed === true)
+        .reduce((currentValue, header) => currentValue + (parseInt(header.width) || 0), 0)
+    },
+    genHeaderData (header, children, key, indx) {
       const classes = ['column']
       const data = {
         key,
@@ -75,6 +81,13 @@ export default {
         data.attrs['aria-label'] += ': Not sorted.' // TODO: Localization
       }
 
+      if (header.fixed === true) {
+        classes.push('fixed-column')
+        if (this.headers[indx + 1] && !this.headers[indx + 1].fixed) {
+          classes.push('last-fixed-column')
+        }
+        data.style = { left: `${this.getFixedColumnLeft(indx)}px` }
+      }
       classes.push(`text-xs-${header.align || 'left'}`)
       if (Array.isArray(header.class)) {
         classes.push(...header.class)
