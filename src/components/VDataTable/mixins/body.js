@@ -25,7 +25,7 @@ export default {
           `${groupPrefix}-col`,
           {
             [`${groupPrefix}-col--active`]: this.activeGroup[props.groupName],
-            'fixed-column': fixedColumnsCount,
+            'fixed-column': fixedColumnsCount
           }
         ],
         on: {
@@ -57,8 +57,7 @@ export default {
         const expand = this.$createElement('div', {
           class: 'datatable__expand-content',
           key: props.item[this.itemKey]
-        }, this.$scopedSlots.expand(props))
-
+        }, [this.$scopedSlots.expand(props)])
         children.push(expand)
       }
 

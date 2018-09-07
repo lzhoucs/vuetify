@@ -58,7 +58,7 @@ export default {
     },
     getFixedColumnLeft (indx = this.headers.length) {
       return this.headers
-        .filter((header, i) => i < indx && header.fixed === true )
+        .filter((header, i) => i < indx && header.fixed === true)
         .reduce((currentValue, header) => currentValue + (parseInt(header.width) || 0), 0)
     },
     genHeaderData (header, children, key, indx) {
