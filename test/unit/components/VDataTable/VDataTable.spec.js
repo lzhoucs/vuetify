@@ -325,111 +325,6 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
     expect('Unable to locate target [data-app]').toHaveBeenTipped()
   })
 
-  it('should render correct colspan when using headers-length prop', async () => {
-    const data = dataTableTestData()
-    data.propsData.headersLength = 11
-    const wrapper = mount(VDataTable, data)
-
-    expect(wrapper.find('tr.v-datatable__progress th')[0].getAttribute('colspan')).toBe('11')
-    expect('Unable to locate target [data-app]').toHaveBeenTipped()
-  })
-
-  it('should not emit pagination event after load (#3585)', async () => {
-    const data = dataTableTestDataFilter()
-    data.propsData.totalItems = 0
-    data.propsData.search = ''
-    data.propsData.pagination = {}
-
-    const wrapper = mount(VDataTable, data)
-    const pagination = jest.fn()
-    wrapper.vm.$on('update:pagination', pagination)
-
-    await wrapper.vm.$nextTick()
-
-    expect(pagination).toHaveBeenCalledTimes(0)
-
-    expect('Unable to locate target [data-app]').toHaveBeenTipped()
-  })
-
-  it('should emit correct totalItems property in pagination when searching (#3511)', async () => {
-    const data = {
-      propsData: {
-        pagination: {
-          rowsPerPage: 5,
-          descending: false,
-          page: 1,
-          sortBy: 'calories'
-        },
-        headers: [{ text: 'Calories', value: 'calories' }],
-        items: [{ calories: 19 }, { calories: 19 }, { calories: 152 }]
-      }
-    }
-
-    const wrapper = mount(VDataTable, data)
-    const pagination = jest.fn()
-    wrapper.vm.$on('update:pagination', pagination)
-
-    await wrapper.vm.$nextTick()
-
-    wrapper.setProps({ search: '9' })
-
-    await wrapper.vm.$nextTick()
-
-    expect(wrapper.instance().filteredItems).toHaveLength(2)
-    expect(pagination).toHaveBeenCalledWith(Object.assign({}, data.propsData.pagination, { totalItems: 2 }))
-
-    expect('Unable to locate target [data-app]').toHaveBeenTipped()
-  })
-
-  it('should not reset page when total-items prop changes (#3766)', async () => {
-    const data = {
-      propsData: {
-        pagination: {
-          rowsPerPage: 1,
-          descending: false,
-          page: 2,
-          sortBy: 'calories'
-        },
-        totalItems: 3,
-        headers: [{ text: 'Calories', value: 'calories' }],
-        items: [{ calories: 19 }, { calories: 19 }, { calories: 152 }]
-      }
-    }
-
-    const wrapper = mount(VDataTable, data)
-
-    await wrapper.vm.$nextTick()
-
-    expect(wrapper.instance().computedPagination.page).toBe(2)
-
-    wrapper.setProps({ totalItems: 10 })
-
-    await wrapper.vm.$nextTick()
-
-    expect(wrapper.instance().computedPagination.page).toBe(2)
-
-    expect('Unable to locate target [data-app]').toHaveBeenTipped()
-  })
-
-  it('should allow selection using nested values', async () => {
-    const data = dataTableNestedTestData()
-    const wrapper = mount(VDataTable, data)
-
-    await wrapper.vm.$nextTick()
-
-    expect(wrapper.vm.selected.hasOwnProperty(1)).toBe(true)
-    expect(wrapper.vm.selected[1]).toBe(true)
-
-    wrapper.setProps({ value: [{ nested: { value: { id: 2, name: 'baz' } } }] })
-    await wrapper.vm.$nextTick()
-
-    expect(wrapper.vm.selected.hasOwnProperty(1)).toBe(false)
-    expect(wrapper.vm.selected.hasOwnProperty(2)).toBe(true)
-    expect(wrapper.vm.selected[2]).toBe(true)
-
-    expect('Unable to locate target [data-app]').toHaveBeenTipped()
-  })
-
   function createGroupComponent(propsData = {}) {
     const data = dataTableTestDataGroup()
 
@@ -459,7 +354,7 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
   it('should only render group rows by default when `group` slot is present', () => {
     const wrapper = mount(createGroupComponent())
 
-    const allRows = wrapper.find('table.v-datatable tbody > tr')
+    const allRows = wrapper.find('table.datatable tbody > tr')
     expect(allRows).toHaveLength(3)
 
     expect('Unable to locate target [data-app]').toHaveBeenTipped()
@@ -468,19 +363,19 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
   it('should render/unrender all rows in the same group when the group is expanded/collapsed', async() => {
     const wrapper = mount(createGroupComponent())
 
-    const rowGroupA = wrapper.find('table.v-datatable tbody > tr > td.v-datatable__group-col')[0]
+    const rowGroupA = wrapper.find('table.datatable tbody > tr > td.v-datatable__group-col')[0]
     expect(rowGroupA.text()).toContain('Group 1 - A')
     rowGroupA.trigger('click')
     await wrapper.vm.$nextTick()
 
     const lengthOfGroupA = dataTableTestDataGroup().propsData.items.filter(item => item.category === 'A').length
-    const allRows1 = wrapper.find('table.v-datatable tbody > tr')
+    const allRows1 = wrapper.find('table.datatable tbody > tr')
     expect(allRows1).toHaveLength(3 + lengthOfGroupA)
 
     rowGroupA.trigger('click')
     await wrapper.vm.$nextTick()
 
-    const allRows2 = wrapper.find('table.v-datatable tbody > tr')
+    const allRows2 = wrapper.find('table.datatable tbody > tr')
     expect(allRows2).toHaveLength(3)
     expect('Unable to locate target [data-app]').toHaveBeenTipped()
   })
@@ -494,11 +389,11 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
     }
     const wrapper = mount(createGroupComponent({ pagination }))
 
-    const rowGroups = wrapper.find('table.v-datatable tbody > tr > td.v-datatable__group-col')
+    const rowGroups = wrapper.find('table.datatable tbody > tr > td.v-datatable__group-col')
     rowGroups.forEach(rowGroup => rowGroup.trigger('click')) // expand all groups
     await wrapper.vm.$nextTick()
 
-    const allRowsAsc = wrapper.find('table.v-datatable tbody > tr > td:first-child')
+    const allRowsAsc = wrapper.find('table.datatable tbody > tr > td:first-child')
     expect(allRowsAsc[0].text()).toContain('Group 1 - A')
     expect(allRowsAsc[1].text()).toBe('val1')
     expect(allRowsAsc[2].text()).toBe('val5')
@@ -516,7 +411,7 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
     })
     await wrapper.vm.$nextTick()
 
-    const allRowsDesc = wrapper.find('table.v-datatable tbody > tr > td:first-child')
+    const allRowsDesc = wrapper.find('table.datatable tbody > tr > td:first-child')
     expect(allRowsDesc[0].text()).toContain('Group 1 - A')
     expect(allRowsDesc[1].text()).toBe('val5')
     expect(allRowsDesc[2].text()).toBe('val1')
@@ -538,7 +433,7 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
       }
     }))
 
-    wrapper.find('table.v-datatable tbody > tr > td.v-datatable__group-col')[0].trigger('click')
+    wrapper.find('table.datatable tbody > tr > td.v-datatable__group-col')[0].trigger('click')
     await wrapper.vm.$nextTick()
 
     expect(mockGroupEventHandler).toHaveBeenCalledWith({
@@ -547,7 +442,7 @@ test('VDataTable.vue', ({ mount, compileToFunctions }) => {
       groupName: 'A'
     })
 
-    wrapper.find('table.v-datatable tbody > tr > td.v-datatable__group-col')[0].trigger('click')
+    wrapper.find('table.datatable tbody > tr > td.v-datatable__group-col')[0].trigger('click')
     await wrapper.vm.$nextTick()
 
     expect(mockGroupEventHandler).toHaveBeenCalledWith({
