@@ -30,6 +30,13 @@ datatable($material)
         .input-group__append-icon
           color: rgba($material.fg-color, $material.secondary-text-percent) !important
 
+.v-datatable
+  &-root
+    position: relative;
+
+  .v-input--selection-controls
+    margin: 0
+
 theme(datatable, "datatable")
 
 .datatable
@@ -126,3 +133,20 @@ theme(datatable, "datatable")
     > .card
       border-radius: 0
       box-shadow: none
+
+.v-datatable__group
+  &-col
+    padding: 0 !important
+    cursor: pointer
+
+    &.fixed-column
+      left: 0
+      width: 100%
+    &--active
+      .v-datatable__group__expand-icon
+        .v-icon
+          transform: rotate(-180deg)
+
+  &-content
+    display: flex
+    align-items: center

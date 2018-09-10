@@ -32,6 +32,7 @@ export default {
         totalItems: 0
       },
       expanded: {},
+      activeGroup: {},
       actionsClasses: 'data-iterator__actions',
       actionsRangeControlsClasses: 'data-iterator__actions__range-controls',
       actionsSelectClasses: 'data-iterator__actions__select',
@@ -98,10 +99,18 @@ export default {
     },
     customSort: {
       type: Function,
-      default: (items, index, isDescending) => {
-        if (index === null) return items
+      default: (items, ...sortSpecs) => {
+        if (!sortSpecs.length) return items
 
-        return items.sort((a, b) => {
+        return items.sort((a, b) => compareFunc(a, b, 0))
+
+        function compareFunc (a, b, i) {
+          if (i >= sortSpecs.length) return 0
+
+          const [index, isDescending] = sortSpecs[i]
+
+          if (!index) return compareFunc(a, b, i + 1)
+
           let sortA = getObjectValueByPath(a, index)
           let sortB = getObjectValueByPath(b, index)
 
@@ -111,12 +120,13 @@ export default {
 
           // Check if both are numbers
           if (!isNaN(sortA) && !isNaN(sortB)) {
-            return sortA - sortB
+            const result = sortA - sortB
+            return result !== 0 ? result : compareFunc(a, b, i + 1)
           }
 
           // Check if both cannot be evaluated
           if (sortA === null && sortB === null) {
-            return 0
+            return compareFunc(a, b, i + 1)
           }
 
           [sortA, sortB] = [sortA, sortB]
@@ -126,9 +136,8 @@ export default {
 
           if (sortA > sortB) return 1
           if (sortA < sortB) return -1
-
-          return 0
-        })
+          return compareFunc(a, b, i + 1)
+        }
       }
     },
     value: {
@@ -147,6 +156,10 @@ export default {
     itemKey: {
       type: String,
       default: 'id'
+    },
+    groupKey: {
+      type: String,
+      default: null
     },
     pagination: {
       type: Object,
@@ -261,9 +274,7 @@ export default {
       }
 
       items = this.customSort(
-        items,
-        this.computedPagination.sortBy,
-        this.computedPagination.descending
+        items, [this.groupKey, false], [this.computedPagination.sortBy, this.computedPagination.descending]
       )
 
       return this.hideActions &&
