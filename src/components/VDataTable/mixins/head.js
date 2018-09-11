@@ -27,19 +27,10 @@ export default {
         children = [this.hasTag(row, 'th') ? this.genTR(row) : row, this.genTProgress()]
       } else {
         const row = this.headers.map((o, i) => this.genHeader(o, this.headerKey ? o[this.headerKey] : i, i))
-        const checkbox = this.$createElement(VCheckbox, {
-          props: {
-            dark: this.dark,
-            light: this.light,
-            color: this.selectAll === true ? '' : this.selectAll,
-            hideDetails: true,
-            inputValue: this.everyItem,
-            indeterminate: this.indeterminate
-          },
-          on: { change: this.toggle }
-        })
 
-        this.hasSelectAll && row.unshift(this.$createElement('th', [checkbox]))
+        // render select all here only when selectAll is enabled AND the table contains no fixed columns,
+        // otherwise genHeader() takes care of it
+        this.hasSelectAll && !this.getFixedColumnLeft() && row.unshift(this.genSelectAllHeader())
 
         children = [this.genTR(row), this.genTProgress()]
       }
@@ -47,7 +38,28 @@ export default {
       this.getFixedColumnLeft() && children.pop()
       return this.$createElement('thead', [children])
     },
+    genSelectAllHeader (data = {}) {
+      const checkbox = this.$createElement(VCheckbox, {
+        props: {
+          dark: this.dark,
+          light: this.light,
+          color: this.selectAll === true ? '' : this.selectAll,
+          hideDetails: true,
+          inputValue: this.everyItem,
+          indeterminate: this.indeterminate
+        },
+        on: { change: this.toggle }
+      })
+      return this.$createElement('th', data, [checkbox])
+    },
     genHeader (header, key, indx) {
+      if (this.hasSelectAll && header.fixed === true && indx === 0) {
+        return this.genSelectAllHeader({
+          class: 'fixed-column',
+          style: { left: `${this.getFixedColumnLeft(indx)}px` }
+        })
+      }
+
       const array = [
         this.$scopedSlots.headerCell
           ? this.$scopedSlots.headerCell({ header })
