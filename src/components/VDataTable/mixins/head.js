@@ -57,6 +57,7 @@ export default {
       if (this.hasSelectAll && header.fixed === true && indx === 0) {
         return this.genSelectAllHeader({
           class: 'fixed-column',
+          attrs: { width: header.width || null },
           style: { left: `${this.getFixedColumnLeft(indx)}px` }
         })
       }
