@@ -8,6 +8,14 @@ export default {
 
       return this.$createElement('tbody', children)
     },
+    collapseAll () {
+      this.activeGroup = {}
+    },
+    expandAll () {
+      for (const group in this.activeGroup) {
+        this.activeGroup[group] = true
+      }
+    },
     genGroupRow (props) {
       const groupPrefix = 'v-datatable__group'
       const expandIcon = this.$createElement('div', {
@@ -110,6 +118,9 @@ export default {
           const groupRow = this.genGroupRow(groupProps)
           rows.push(groupRow)
           groupIndex++
+          if (!this.activeGroup.hasOwnProperty(currentGroup)) {
+            this.$set(this.activeGroup, currentGroup, false)
+          }
         }
 
         if (this.$scopedSlots.group && !this.activeGroup[currentGroup]) {
