@@ -85,7 +85,7 @@ export default {
     customSort: {
       type: Function,
       default: (items, ...sortSpecs) => {
-        if (!sortSpecs.length) return items
+        if (!sortSpecs.length || sortSpecs.every(([index, isDescending]) => !index)) return items
 
         return items.sort((a, b) => compareFunc(a, b, 0))
 
