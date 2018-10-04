@@ -108,11 +108,12 @@ export default {
 
       const rows = []
       let currentGroup
-      for (let index = 0, groupIndex = 0, len = this.filteredItems.length; index < len; ++index) {
+      for (let index = 0, groupIndex = 0, itemInGroupIndex = 0, len = this.filteredItems.length; index < len; ++index) {
         const item = this.filteredItems[index]
         const props = this.createProps(item, index)
 
         if (this.$scopedSlots.group && (!this.groupKey || currentGroup !== props.item[this.groupKey])) {
+          itemInGroupIndex = 0
           currentGroup = props.item[this.groupKey]
           const groupProps = { groupName: currentGroup, groupIndex }
           const groupRow = this.genGroupRow(groupProps)
@@ -126,7 +127,7 @@ export default {
         if (this.$scopedSlots.group && !this.activeGroup[currentGroup]) {
           continue
         } else {
-          props.groupIndex = groupIndex
+          props.itemInGroupIndex = itemInGroupIndex++
         }
 
         const row = this.$scopedSlots.items(props)
