@@ -56,7 +56,7 @@ export default {
           attrs: { colspan: this.headerColumns - fixedColumnsCount }
         }))
       }
-      return this.genTR(groupTds, { 'class': `${groupPrefix}-row` })
+      return this.genTR(groupTds, { 'class': `${groupPrefix}-row`, key: props.groupName + props.groupIndex })
     },
 
     genExpandedRow (props) {
