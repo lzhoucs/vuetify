@@ -7,7 +7,7 @@
   },
   "license": "MIT",
   "homepage": "http://vuetifyjs.com",
-  "repository": "vuetifyjs/vuetify",
+  "repository": "lzhoucs/vuetify",
   "main": "dist/vuetify.js",
   "module": "dist/vuetify.js",
   "jsdelivr": "dist/vuetify.js",
