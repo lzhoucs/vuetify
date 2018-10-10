@@ -56,7 +56,7 @@ export default {
           attrs: { colspan: this.headerColumns - fixedColumnsCount }
         }))
       }
-      return this.genTR(groupTds, { 'class': `${groupPrefix}-row` })
+      return this.genTR(groupTds, { 'class': `${groupPrefix}-row`, key: props.groupName + props.groupIndex })
     },
 
     genExpandedRow (props) {
@@ -83,7 +83,8 @@ export default {
     },
     augmentRow (row) {
       const tds = row.tag === 'td' ? [row]
-        : (this.hasTag(row, 'td') ? row : row[0].children)
+        : (row.tag === 'tr' ? row.children
+          : (this.hasTag(row, 'td') ? row : row[0].children))
 
       let i = 0
       for (const td of tds) {
@@ -101,6 +102,7 @@ export default {
         }
       }
     },
+    /* eslint-disable max-statements */
     genFilteredItems () {
       if (!this.$scopedSlots.items) {
         return null
@@ -149,6 +151,8 @@ export default {
 
       return rows
     },
+    /* eslint-enable max-statements */
+
     genEmptyItems (content) {
       if (this.hasTag(content, 'tr')) {
         return content
