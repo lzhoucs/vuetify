@@ -102,6 +102,7 @@ export default {
         }
       }
     },
+    /* eslint-disable max-statements */
     genFilteredItems () {
       if (!this.$scopedSlots.items) {
         return null
@@ -150,6 +151,8 @@ export default {
 
       return rows
     },
+    /* eslint-enable max-statements */
+
     genEmptyItems (content) {
       if (this.hasTag(content, 'tr')) {
         return content
