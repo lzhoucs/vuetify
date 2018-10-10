@@ -83,7 +83,8 @@ export default {
     },
     augmentRow (row) {
       const tds = row.tag === 'td' ? [row]
-        : (this.hasTag(row, 'td') ? row : row[0].children)
+        : (row.tag === 'tr' ? row.children
+          : (this.hasTag(row, 'td') ? row : row[0].children))
 
       let i = 0
       for (const td of tds) {
