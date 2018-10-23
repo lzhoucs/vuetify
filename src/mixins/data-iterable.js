@@ -146,6 +146,10 @@ export default {
       type: String,
       default: null
     },
+    groupSortDescending: {
+      type: Boolean,
+      default: false
+    },
     pagination: {
       type: Object,
       default: () => {}
@@ -291,7 +295,7 @@ export default {
       }
 
       items = this.customSort(
-        items, [this.groupKey, false], [this.computedPagination.sortBy, this.computedPagination.descending]
+        items, [this.groupKey, this.groupSortDescending], [this.computedPagination.sortBy, this.computedPagination.descending]
       )
 
       return this.hideActions &&
