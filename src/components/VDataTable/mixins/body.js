@@ -88,7 +88,7 @@ export default {
 
       let i = 0
       for (const td of tds) {
-        if (this.headers[i].fixed === true && td.tag === 'td') {
+        if (this.headers[i] && (this.headers[i].fixed === true) && td.tag === 'td') {
           td.data = td.data || {}
           td.data.class = `${td.data['class'] || ''} fixed-column`.trim()
           td.data.style = {
