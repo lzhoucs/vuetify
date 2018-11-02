@@ -122,7 +122,7 @@ export default {
           rows.push(groupRow)
           groupIndex++
           if (!this.activeGroup.hasOwnProperty(currentGroup)) {
-            this.$set(this.activeGroup, currentGroup, false)
+            this.$set(this.activeGroup, currentGroup, this.groupExpanded)
           }
         }
 

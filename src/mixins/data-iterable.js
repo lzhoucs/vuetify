@@ -150,6 +150,10 @@ export default {
       type: Boolean,
       default: false
     },
+    groupExpanded: {
+      type: Boolean,
+      default: false
+    },
     pagination: {
       type: Object,
       default: () => {}
