@@ -10,9 +10,12 @@ export default {
       return this.$createElement('tbody', children)
     },
     collapseAll () {
+      this._groupExpanded = this.groupExpanded
+      this.groupExpanded = false
       this.activeGroup = {}
     },
     expandAll () {
+      this.groupExpanded = this._groupExpanded
       for (const group in this.activeGroup) {
         this.activeGroup[group] = true
       }
