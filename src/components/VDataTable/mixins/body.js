@@ -10,14 +10,21 @@ export default {
       return this.$createElement('tbody', children)
     },
     collapseAll () {
-      this._groupExpanded = this.groupExpanded
-      this.groupExpanded = false
-      this.activeGroup = {}
+      if (this.groupExpanded) {
+        for (const group in this.activeGroup) {
+          this.activeGroup[group] = false
+        }
+      } else {
+        this.activeGroup = {}
+      }
     },
     expandAll () {
-      this.groupExpanded = this._groupExpanded
-      for (const group in this.activeGroup) {
-        this.activeGroup[group] = true
+      if (this.groupExpanded) {
+        this.activeGroup = {}
+      } else {
+        for (const group in this.activeGroup) {
+          this.activeGroup[group] = true
+        }
       }
     },
     genGroupRow (props) {
