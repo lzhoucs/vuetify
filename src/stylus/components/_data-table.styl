@@ -25,6 +25,9 @@ v-datatable($material)
 theme(v-datatable, "v-datatable")
 
 .v-datatable
+  &-root
+    position: relative;
+
   .v-input--selection-controls
     margin: 0
 
@@ -126,3 +129,20 @@ theme(v-datatable, "v-datatable")
     > .card
       border-radius: 0
       box-shadow: none
+
+.v-datatable__group
+  &-col
+    padding: 0 !important
+    cursor: pointer
+
+    &.fixed-column
+      left: 0
+      width: 100%
+    &--active
+      .v-datatable__group__expand-icon
+        .v-icon
+          transform: rotate(-180deg)
+
+  &-content
+    display: flex
+    align-items: center
