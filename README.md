@@ -9,7 +9,7 @@ Our current project has a requirement for this feature, which is the primary rea
 
 ### Where to get the modified code/package
 
-I am maintaining two branches:
+I am maintaining the following branches:
 * [1.5.x.modified](https://github.com/lzhoucs/vuetify/tree/1.5.x.modified)
 
 to keep up to date with 1.5.x versions of vuetify. It is published to npm: [@lzhoucs/vuetify](https://www.npmjs.com/package/@lzhoucs/vuetify)
