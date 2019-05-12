@@ -49,7 +49,6 @@ import VRadioGroup from '@/components/VRadioGroup'
 import VRangeSlider from '@/components/VRangeSlider'
 import VResponsive from '@/components/VResponsive'
 import VSelect from '@/components/VSelect'
-import VSelectList from '@/components/VSelect/VSelectList'
 import VSlider from '@/components/VSlider'
 import VSnackbar from '@/components/VSnackbar'
 import VSparkline from '@/components/VSparkline'
@@ -120,7 +119,6 @@ const components = {
   VRangeSlider,
   VResponsive,
   VSelect,
-  VSelectList,
   VSlider,
   VSnackbar,
   VSparkline,
