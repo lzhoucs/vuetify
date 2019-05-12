@@ -687,11 +687,15 @@ exports[`VDataTable.vue should match a snapshot - with group 1`] = `
               </div>
               <div class="v-menu">
                 <div class="v-menu__content theme--light v-menu__content--auto "
-                     style="max-height: 200px; min-width: 75px; max-width: auto; top: 12px; left: 12px; z-index: 0; display: none;"
+                     style="max-height: 200px; min-width: 75px; max-width: auto; top: 12px; left: 0px; z-index: 0; display: none;"
                 >
                   <div class="v-select-list v-card theme--light">
-                    <div class="v-list theme--light">
-                      <div>
+                    <div role="list"
+                         class="v-list theme--light"
+                    >
+                      <div role="listitem"
+                           class="primary--text"
+                      >
                         <a class="v-list__tile v-list__tile--link v-list__tile--active theme--light primary--text">
                           <div class="v-list__tile__content">
                             <div class="v-list__tile__title">
@@ -700,7 +704,7 @@ exports[`VDataTable.vue should match a snapshot - with group 1`] = `
                           </div>
                         </a>
                       </div>
-                      <div>
+                      <div role="listitem">
                         <a class="v-list__tile v-list__tile--link theme--light">
                           <div class="v-list__tile__content">
                             <div class="v-list__tile__title">
@@ -709,7 +713,7 @@ exports[`VDataTable.vue should match a snapshot - with group 1`] = `
                           </div>
                         </a>
                       </div>
-                      <div>
+                      <div role="listitem">
                         <a class="v-list__tile v-list__tile--link theme--light">
                           <div class="v-list__tile__content">
                             <div class="v-list__tile__title">
@@ -718,7 +722,7 @@ exports[`VDataTable.vue should match a snapshot - with group 1`] = `
                           </div>
                         </a>
                       </div>
-                      <div>
+                      <div role="listitem">
                         <a class="v-list__tile v-list__tile--link theme--light">
                           <div class="v-list__tile__content">
                             <div class="v-list__tile__title">
