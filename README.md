@@ -8,11 +8,16 @@ This is a fork of [vuetifyjs/vuetify](https://github.com/vuetifyjs/vuetify), whi
 Our current project has a requirement for this feature, which is the primary reason for working on these features.These added features probably won't be included in official vuetify release due to a full on-going rewrite: https://github.com/vuetifyjs/vuetify/pull/3833, see my original PR: https://github.com/vuetifyjs/vuetify/pull/4966 for details
 
 ### Where to get the modified code/package
+
 I am maintaining two branches:
+* [1.5.x.modified](https://github.com/lzhoucs/vuetify/tree/1.5.x.modified)
+
+to keep up to date with 1.5.x versions of vuetify. It is published to npm: [@lzhoucs/vuetify](https://www.npmjs.com/package/@lzhoucs/vuetify)
+
+The following branches are out dated and are no longer maintained:
 * [1.2.x.modified](https://github.com/lzhoucs/vuetify/tree/1.2.x.modified)
 * [1.0.x.modified](https://github.com/lzhoucs/vuetify/tree/1.0.x.modified)
 
-to keep up to date with 1.2.x and 1.0.x versions of vuetify respectively. Both branches are published to npm: [@lzhoucs/vuetify](https://www.npmjs.com/package/@lzhoucs/vuetify)
 
 ### How to use this package [@lzhoucs/vuetify](https://www.npmjs.com/package/@lzhoucs/vuetify):
 * Modify `vuetify` package name in `package.json`. One way is to run the following commands:
