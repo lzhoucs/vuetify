@@ -111,6 +111,7 @@ Array [
   "VScrollYReverseTransition",
   "VScrollYTransition",
   "VSelect",
+  "VSelectList",
   "VSheet",
   "VSlideXReverseTransition",
   "VSlideXTransition",

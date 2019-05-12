@@ -1,14 +1,14 @@
 {
-  "name": "vuetify",
+  "name": "@lzhoucs/vuetify",
   "description": "Vue.js 2 Semantic Component Framework",
-  "version": "1.5.14",
+  "version": "1.5.14-modified.1",
   "author": {
     "name": "John Leider",
     "email": "john@vuetifyjs.com"
   },
   "license": "MIT",
   "homepage": "http://vuetifyjs.com",
-  "repository": "vuetifyjs/vuetify",
+  "repository": "lzhoucs/vuetify",
   "main": "dist/vuetify.js",
   "module": "dist/vuetify.js",
   "jsdelivr": "dist/vuetify.js",
