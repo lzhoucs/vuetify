@@ -27,36 +27,55 @@ export default {
 
         children = [this.hasTag(row, 'th') ? this.genTR(row) : row, this.genTProgress()]
       } else {
-        const row = this.headers.map((o, i) => this.genHeader(o, this.headerKey ? o[this.headerKey] : i))
-        const checkbox = this.$createElement(VCheckbox, {
-          props: {
-            dark: this.dark,
-            light: this.light,
-            color: this.selectAll === true ? '' : this.selectAll,
-            hideDetails: true,
-            inputValue: this.everyItem,
-            indeterminate: this.indeterminate
-          },
-          on: { change: this.toggle }
-        })
+        const row = this.headers.map((o, i) => this.genHeader(o, this.headerKey ? o[this.headerKey] : i, i))
 
-        this.hasSelectAll && row.unshift(this.$createElement('th', [checkbox]))
+        // render select all here only when selectAll is enabled AND the table contains no fixed columns,
+        // otherwise genHeader() takes care of it
+        this.hasSelectAll && !this.getFixedColumnLeft() && row.unshift(this.genSelectAllHeader())
 
         children = [this.genTR(row), this.genTProgress()]
       }
-
+      // fixed column isn't compatible with the built in progress bar
+      this.getFixedColumnLeft() && children.pop()
       return this.$createElement('thead', [children])
     },
-    genHeader (header, key) {
+    genSelectAllHeader (data = {}) {
+      const checkbox = this.$createElement(VCheckbox, {
+        props: {
+          dark: this.dark,
+          light: this.light,
+          color: this.selectAll === true ? '' : this.selectAll,
+          hideDetails: true,
+          inputValue: this.everyItem,
+          indeterminate: this.indeterminate
+        },
+        on: { change: this.toggle }
+      })
+      return this.$createElement('th', data, [checkbox])
+    },
+    genHeader (header, key, indx) {
+      if (this.hasSelectAll && header.fixed === true && indx === 0) {
+        return this.genSelectAllHeader({
+          class: 'fixed-column',
+          attrs: { width: header.width || null },
+          style: { left: `${this.getFixedColumnLeft(indx)}px` }
+        })
+      }
+
       const array = [
         this.$scopedSlots.headerCell
           ? this.$scopedSlots.headerCell({ header })
           : header[this.headerText]
       ]
 
-      return this.$createElement('th', ...this.genHeaderData(header, array, key))
+      return this.$createElement('th', ...this.genHeaderData(header, array, key, indx))
     },
-    genHeaderData (header, children, key) {
+    getFixedColumnLeft (indx = this.headers.length) {
+      return this.headers
+        .filter((header, i) => i < indx && header.fixed === true)
+        .reduce((currentValue, header) => currentValue + (parseInt(header.width) || 0), 0)
+    },
+    genHeaderData (header, children, key, indx) {
       const classes = ['column']
       const data = {
         key,
@@ -75,6 +94,13 @@ export default {
         data.attrs['aria-label'] += ': Not sorted.' // TODO: Localization
       }
 
+      if (header.fixed === true) {
+        classes.push('fixed-column')
+        if (this.headers[indx + 1] && !this.headers[indx + 1].fixed) {
+          classes.push('last-fixed-column')
+        }
+        data.style = { left: `${this.getFixedColumnLeft(indx)}px` }
+      }
       classes.push(`text-xs-${header.align || 'left'}`)
       if (Array.isArray(header.class)) {
         classes.push(...header.class)
