@@ -11,3 +11,6 @@
 
 # Keep types
 !/types/*.d.ts
+
+# Keep readme.md
+!/README.md
