@@ -20,6 +20,7 @@ The following branches are out dated and are no longer maintained:
 
 
 ### How to use this package [@lzhoucs/vuetify](https://www.npmjs.com/package/@lzhoucs/vuetify):
+#### Approach 1, use webpack module alias
 * Modify `vuetify` package name in `package.json`. One way is to run the following commands:
 ```
 npm uninstall vuetify
@@ -34,6 +35,16 @@ npm install @lzhoucs/vuetify --save
       }
     }
   }
+```
+#### Approach 2(recommended), use [package alias](https://yarnpkg.com/en/docs/cli/add#toc-yarn-add-alias)
+
+This is how it looks like in command line
+```
+yarn add vuetify@npm:@lzhoucs/vuetify
+```
+This is the package.json added by yarn once the above command is ran:
+```
+"vuetify": "npm:@lzhoucs/vuetify@^1.5.14-modified.4"
 ```
 
 ### Note
