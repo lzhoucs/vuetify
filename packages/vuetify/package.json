@@ -1,7 +1,7 @@
 {
   "name": "@lzhoucs/vuetify",
   "description": "Vue.js 2 Semantic Component Framework",
-  "version": "1.5.14-modified.4",
+  "version": "1.5.14-modified.5",
   "author": {
     "name": "John Leider",
     "email": "john@vuetifyjs.com"
